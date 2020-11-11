@@ -113,10 +113,15 @@ sendRequest(callOptions, callback) {
    * @param {error} callback.error - The error property of callback.
    */
   get(callback) {
-    let getCallOptions = { ...this.options };
-    getCallOptions.method = 'GET';
-    getCallOptions.query = 'sysparm_limit=1';
-    this.sendRequest(getCallOptions, (results, error) => callback(results, error));
+    this.connector.get((data, error) => {
+
+   if (error) {
+   console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
+    } else {
+    console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
+    }
+    return callback(data,error);
+    });
   }
 
   post(callback) {
