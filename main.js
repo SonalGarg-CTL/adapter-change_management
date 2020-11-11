@@ -115,7 +115,8 @@ healthcheck(callback) {
       * for the callback's errorMessage parameter.
       */
       this.emitOffline();
-       log.error('ServiceNow: Error returned from GET request :{} on instance id: {}', error, this.id);
+       log.error('ServiceNow: Error occured on instance id: {}', + this.id);
+       log.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
    } else {
      /**
       * Write this block.
@@ -128,7 +129,9 @@ healthcheck(callback) {
       * responseData parameter.
       */
        emitOnline();
-       log.debug('ServiceNow: Response returned from POST request:{} on instance id :{} ', data , this.id);
+       log.debug('ServiceNow: Successfully returned on instance id :{} ',+ this.id);
+       log.debug(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
+       
        //return(callback.result);
    }
  });
