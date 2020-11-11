@@ -152,9 +152,15 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-      let getAdapterProperties = { ...this.adapterProperties };
-      const connector = new ServiceNowConnector(1, getAdapterProperties); 
-      this.connector.get(callback);
+    this.connector.get((data, error) => {
+
+   if (error) {
+   console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
+    } else {
+    console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
+    }
+    return callback(data,error);
+    });
   }
 
   /**
@@ -173,10 +179,15 @@ class ServiceNowAdapter extends EventEmitter {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     let postAdapterProperties = { ...this.adapterProperties };
-      const connector = new ServiceNowConnector(1, postAdapterProperties);
-      postAdapterProperties.method = 'POST';
-      connector.sendRequest(postAdapterProperties, (results, error) => callback(results, error));
+     this.connector.post((data, error) => {
+
+   if (error) {
+   console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
+    } else {
+    console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
+    }
+    return callback(data,error);
+    });
   }
 }
 
