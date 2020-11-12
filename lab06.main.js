@@ -193,33 +193,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-      let returnData = null;
-     let requiredModifiedData = {};
-     this.connector.get((data, error) => {
-    if (error) {
-      log.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
-    } else {
-         log.debug(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
-        if(data != undefined && "body" in data) {
-           returnData = JSON.parse(data.body);
-               jsonOb =  new JSONObject(jsonObj);
-              for (let i = 0; i < returnData.result.length; i++) {
-               // requiredModifiedData = returnData.result;
-                requiredModifiedData[i] = {};
-                requiredModifiedData[i]["change_ticket_number"] = returnData.result[i].number;
-                requiredModifiedData[i]["change_ticket_key"] = returnData.result[i].sys_id;
-                requiredModifiedData[i]["active"] = returnData.result[i].active;
-                requiredModifiedData[i]["priority"] = returnData.result[i].priority;
-                requiredModifiedData[i]["description"] = returnData.result[i].description;
-                requiredModifiedData[i]["work_start"] = returnData.result[i].work_start;
-                requiredModifiedData[i]["work_end"] = returnData.result[i].work_end;
-              }
-        }
-           
-    }
-        log.info("EXTRACTED GET DATA: " + JSON.stringify(requiredModifiedData));
-        return callback(requiredModifiedData, error);
-  });
+     this.connector.get(callback);
   }
 
   /**
@@ -238,26 +212,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     let returnData = null;
-     let requiredModifiedData = [{}];
-     this.connector.post((data, error) => {
-    if (error) {
-      console.error(`\nError returned from POST request:\n${JSON.stringify(error)}`);
-    } else {
-   if(data != undefined && "body" in data) {
-           returnData = JSON.parse(data.body);
-              requiredModifiedData['change_ticket_number'] = returnData.result.number;
-                requiredModifiedData['change_ticket_key'] = returnData.result.sys_id;
-                requiredModifiedData['active'] = returnData.result.active;
-                requiredModifiedData['priority'] = returnData.result.priority;
-                requiredModifiedData['description'] = returnData.result.description;
-                requiredModifiedData['work_start'] = returnData.result.work_start;
-                requiredModifiedData['work_end'] = returnData.result.work_end;
-        }
-    }
-    log.info("EXTRACTED GET DATA: " + JSON.stringify(requiredModifiedData));
-        return callback(requiredModifiedData, error);
-  });
+     this.connector.post(callback);
   }
 }
 
