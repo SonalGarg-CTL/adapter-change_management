@@ -115,8 +115,11 @@ healthcheck(callback) {
       * for the callback's errorMessage parameter.
       */
       this.emitOffline();
-       log.error('ServiceNow: Error occured on instance id: {}', + this.id);
-       log.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
+       log.error("ServiceNow: Error occured on instance id: {}" + this.id);
+       if(callback) {
+          callback(result, error);
+      }
+      // log.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
    } else {
      /**
       * Write this block.
@@ -129,11 +132,14 @@ healthcheck(callback) {
       * responseData parameter.
       */
        emitOnline();
-       log.debug('ServiceNow: Successfully returned on instance id :{} ',+ this.id);
-       log.debug(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
-       
+       log.debug("ServiceNow: Successfully returned on instance id :{} "+ this.id);
+       //log.debug(`\nResponse returned from GET request:\n${JSON.stringify(result)}`);
+       if(callback) {
+          callback(result, error);
+      }
        //return(callback.result);
    }
+   //callback(result,error);
  });
 }
 
@@ -190,15 +196,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * get() takes a callback function.
      */
-    this.connector.get((data, error) => {
-
-   if (error) {
-   console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
-    } else {
-    console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
-    }
-    return callback(data,error);
-    });
+    this.connector.get(callback);
   }
 
   /**
@@ -217,15 +215,7 @@ healthcheck(callback) {
      * Note how the object was instantiated in the constructor().
      * post() takes a callback function.
      */
-     this.connector.post((data, error) => {
-
-   if (error) {
-   console.error(`\nError returned from GET request:\n${JSON.stringify(error)}`);
-    } else {
-    console.log(`\nResponse returned from GET request:\n${JSON.stringify(data)}`);
-    }
-    return callback(data,error);
-    });
+     this.connector.post(callback);
   }
 }
 
